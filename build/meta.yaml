@@ -1,0 +1,27 @@
+package:
+  name: "NanoReceptor"
+  version: "1.0.0"
+
+build:
+  number: 0
+  noarch: generic
+
+source:
+  git_url: https://github.com/gbouras13/NanoReceptor
+
+requirements:
+ run:
+    - minimap2
+    - biopython
+    - pandas
+
+
+about:
+  home: https://github.com/gbouras13/NanoReceptor
+  license: MIT
+  license_familY: MIT
+  summary: "Program to infer IG and TRA quantities from Long Read RNA-Seq Data"
+
+extra:
+  recipe-maintainers:
+    - gbouras13
