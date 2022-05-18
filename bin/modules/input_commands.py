@@ -19,6 +19,7 @@ def get_input():
 	parser = argparse.ArgumentParser(description='NanoReceptor: Program to infer IG and TRA quantities from Long Read RNA-Seq Data', formatter_class=RawTextHelpFormatter)
 	parser.add_argument('-i', '--infile', action="store", help='input file in fastq format',  required=True)
 	parser.add_argument('-o', '--outdir', action="store", help='directory to write the output', default=os.path.join(os.getcwd(), "output/") )
+	parser.add_argument('-t', '--threads', action="store", help='number of threads', default=1 )
 	parser.add_argument('-V', '--version', action='version', version=v)
 	args = parser.parse_args()
 

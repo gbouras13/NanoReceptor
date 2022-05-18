@@ -13,7 +13,7 @@ if __name__ == "__main__":
     input_commands.validate_fastq(args.infile)
     out_dir = input_commands.instantiate_dirs(args.outdir) # incase there is already an outdir
     processes.run_minimap2(args.infile, out_dir, DBDIR)
-    processes.keep_primary_supplementary_mappings_convert_sam(out_dir)
+    processes.keep_primary_supplementary_mappings_convert_sam(out_dir, args.threads)
     processes.run_flagstat(out_dir)
     # processes.translate_fastas(out_dir)
     # processes.run_trna_scan(args.infile, out_dir)

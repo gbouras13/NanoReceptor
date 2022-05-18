@@ -17,10 +17,10 @@ def run_minimap2(input_file, out_dir, db_dir):
         sys.exit("Error with mapping step \n")  
 
 
-def keep_primary_supplementary_mappings_convert_sam(out_dir):
+def keep_primary_supplementary_mappings_convert_sam(out_dir, threads):
     try:
         # samtools view -b -f 16   sample.bam | samtools view -b -F 256 | samtools view -h > mapped.sam
-        p1 = sp.Popen(["samtools", "view", "-b", "-f", "16", os.path.join(out_dir, "sample.bam")],stdout=sp.PIPE)
+        p1 = sp.Popen(["samtools", "view", "-b", "-f", threads, os.path.join(out_dir, "sample.bam")],stdout=sp.PIPE)
         p2 = sp.Popen(['samtools', 'view', '-b', '-F', "256"],stdin=p1.stdout, stdout=sp.PIPE)
         fout = open(os.path.join(out_dir,'mapped.sam'), 'wb')
         sp.run(['samtools', 'view', '-h'], stdin=p2.stdout, stdout=fout)
