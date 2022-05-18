@@ -4,7 +4,6 @@ from modules import input_commands
 from modules import processes
 from modules import post_processing
 import os
-import subprocess as sp
 
 DBDIR = os.path.join(os.path.dirname(__file__),'../',"databases/")  
 
@@ -12,9 +11,14 @@ if __name__ == "__main__":
     args = input_commands.get_input()
     input_commands.validate_fastq(args.infile)
     out_dir = input_commands.instantiate_dirs(args.outdir) # incase there is already an outdir
-    processes.run_minimap2(args.infile, out_dir, DBDIR)
-    processes.keep_primary_supplementary_mappings_convert_sam(out_dir, args.threads)
-    processes.run_flagstat(out_dir)
+    processes.run_minimap2(args.infile, out_dir, DBDIR, args.prefix)
+    processes.keep_primary_supplementary_mappings_convert_sam(out_dir, args.prefix)
+    processes.run_flagstat(out_dir, args.prefix)
+    # post processing
+    total_read_count = post_processing.get_total_read_count(out_dir,args.prefix)
+    post_processing.parse_bam(out_dir, args.prefix)
+   
+
     # processes.translate_fastas(out_dir)
     # processes.run_trna_scan(args.infile, out_dir)
     # processes.run_mmseqs(DBDIR, out_dir)
