@@ -53,11 +53,6 @@ def pivot_df(out_dir, df, total_read_count, prefix):
     IGE = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHE"), 'rname'].sum(),1)
     IGM = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHM"), 'rname'].sum(),1)
     IGD = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHD"), 'rname'].sum(),1)
-    print(IGA)
-    print(IGG)
-    print(IGE)
-    print(IGM)
-    print(IGD)
     ig_dict = {IGA: 'igA', IGG: 'igG', IGE: 'igE', IGM: 'igM', IGD: 'igD'}
     # convert to dataframe
     ig_items = ig_dict.items()
@@ -69,6 +64,27 @@ def pivot_df(out_dir, df, total_read_count, prefix):
     ig_df = ig_df[cols]
     print(ig_df)
     ig_df.to_csv( os.path.join(out_dir, prefix + "_ig_summary.csv"), sep=",", index=False)
+
+    ### subsets 
+    # https://stackoverflow.com/questions/26577516/how-to-test-if-a-string-contains-one-of-the-substrings-in-a-list-in-pandas
+    #IGHA
+    IGA1 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHA\*01"), 'rname'].sum(),1)
+    IGA2 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHA\*02"), 'rname'].sum(),1)
+    IGG1 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG1"), 'rname'].sum(),1)
+    IGG2A = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2A"), 'rname'].sum(),1)
+    IGG2B = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2B"), 'rname'].sum(),1)
+    IGG2C = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2C"), 'rname'].sum(),1)
+    iga_dict = {IGA1: 'igA1', IGA2: 'igA2',IGG1: 'igG1',   IGG2A: 'igG2A',  IGG2B: 'igG2B',  IGG2C: 'igG2C'}
+    # convert to dataframe
+    iga_items = iga_dict.items()
+    iga_list = list(iga_items)
+    iga_df = pd.DataFrame(iga_list) 
+    iga_df.columns = ['TPM','IG']
+    cols = iga_df.columns.tolist()
+    cols = cols[-1:] + cols[:-1]
+    iga_df = iga_df[cols]
+    print(iga_df)
+    iga_df.to_csv( os.path.join(out_dir, prefix + "_iga_subtypes_summary.csv"), sep=",", index=False)
 
   
 
