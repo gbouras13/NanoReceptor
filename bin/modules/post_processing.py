@@ -26,34 +26,43 @@ def parse_bam(out_dir, prefix):
     qnames = []
     flags = []
     rnames = []
-
     for read in bam_it:
         qnames.append(read.query_name)
         flags.append(read.flag)
         rnames.append(read.reference_name)
-
     match_df = pd.DataFrame(list(zip(qnames, flags, rnames)),
                columns =['qname', 'flag', 'rname'])
     return(match_df)
 
-def pivot_df(out_dir, df, total_read_count, prefix):
+def pivot_df(out_dir, df, total_read_count, prefix, kit, species):
     # get counts for each igg
-    primary_align_df = df[df["flag"] == 16] 
+    # cdna keeps all the reverse strand mapping
+    if kit == "cdna":
+        numbers = [16, 2048]
+    # direct
+    else:
+        numbers = [0, 2048]
+    primary_align_df = df[df["flag"].isin(numbers)] 
     # remove chromosome (might address this in database)
+    print(primary_align_df['rname'].unique())
     primary_align_df[['rname','chr']] = primary_align_df['rname'].str.split('_',expand=True)
     counts = primary_align_df['rname'].value_counts()
     tpm = counts/int(total_read_count)*1000000
     tpm_df =tpm.to_frame()
     tpm_df = tpm_df.rename_axis('IG').reset_index()
-    tpm_df = tpm_df[tpm_df['IG'].str.contains("IGH")]
+    tpmh_df = tpm_df[tpm_df['IG'].str.contains("IGH")]
+    tpml_df = tpm_df[tpm_df['IG'].str.contains("IGL")]
+    tpmk_df = tpm_df[tpm_df['IG'].str.contains("IGK")]
     #print(tpm_df)
     # summing 
-    IGA = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHA"), 'rname'].sum(),1)
-    IGG = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG"), 'rname'].sum(),1)
-    IGE = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHE"), 'rname'].sum(),1)
-    IGM = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHM"), 'rname'].sum(),1)
-    IGD = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHD"), 'rname'].sum(),1)
-    ig_dict = {IGA: 'igA', IGG: 'igG', IGE: 'igE', IGM: 'igM', IGD: 'igD'}
+    IGA = round(tpmh_df.loc[tpmh_df['IG'].str.contains("IGHA"), 'rname'].sum(),1)
+    IGG = round(tpmh_df.loc[tpmh_df['IG'].str.contains("IGHG"), 'rname'].sum(),1)
+    IGE = round(tpmh_df.loc[tpmh_df['IG'].str.contains("IGHE"), 'rname'].sum(),1)
+    IGM = round(tpmh_df.loc[tpmh_df['IG'].str.contains("IGHM"), 'rname'].sum(),1)
+    IGD = round(tpmh_df.loc[tpmh_df['IG'].str.contains("IGHD"), 'rname'].sum(),1)
+    IGKC = round(tpmk_df.loc[tpmk_df['IG'].str.contains("IGKC"), 'rname'].sum(),1)
+    IGLC = round(tpml_df.loc[tpml_df['IG'].str.contains("IGLC"), 'rname'].sum(),1)
+    ig_dict = {IGA: 'igA', IGG: 'igG', IGE: 'igE', IGM: 'igM', IGD: 'igD', IGKC: 'igK', IGLC: 'igL'}
     # convert to dataframe
     ig_items = ig_dict.items()
     ig_list = list(ig_items)
@@ -67,24 +76,39 @@ def pivot_df(out_dir, df, total_read_count, prefix):
 
     ### subsets 
     # https://stackoverflow.com/questions/26577516/how-to-test-if-a-string-contains-one-of-the-substrings-in-a-list-in-pandas
+
+
+    # rats
+
+    if species == "rat":
     #IGHA
-    IGA1 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHA\*01"), 'rname'].sum(),1)
-    IGA2 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHA\*02"), 'rname'].sum(),1)
-    IGG1 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG1"), 'rname'].sum(),1)
-    IGG2A = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2A"), 'rname'].sum(),1)
-    IGG2B = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2B"), 'rname'].sum(),1)
-    IGG2C = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2C"), 'rname'].sum(),1)
-    iga_dict = {IGA1: 'igA1', IGA2: 'igA2',IGG1: 'igG1',   IGG2A: 'igG2A',  IGG2B: 'igG2B',  IGG2C: 'igG2C'}
+        IGA1 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHA\*01"), 'rname'].sum(),1)
+        IGA2 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHA\*02"), 'rname'].sum(),1)
+        IGG1 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG1"), 'rname'].sum(),1)
+        IGG2 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2"), 'rname'].sum(),1)
+        IGG2A = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2A"), 'rname'].sum(),1)
+        IGG2B = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2B"), 'rname'].sum(),1)
+        IGG2C = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2C"), 'rname'].sum(),1)
+        ig_sub_dict = {IGA1: 'igA1', IGA2: 'igA2',IGG1: 'igG1', IGG2:'igG2',   IGG2A: 'igG2A',  IGG2B: 'igG2B',  IGG2C: 'igG2C'} 
+    elif species == "human":
+        IGA1 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHA1"), 'rname'].sum(),1)
+        IGA2 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHA2"), 'rname'].sum(),1)
+        IGG1 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG1"), 'rname'].sum(),1)
+        IGG2 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG2"), 'rname'].sum(),1)
+        IGG3 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG3"), 'rname'].sum(),1)
+        IGG4 = round(tpm_df.loc[tpm_df['IG'].str.contains("IGHG4"), 'rname'].sum(),1)
+        ig_sub_dict = {IGA1: 'igA1', IGA2: 'igA2',IGG1: 'igG1', IGG2:'igG2', IGG3:'igG3', IGG4: 'igG4'}
+    
     # convert to dataframe
-    iga_items = iga_dict.items()
-    iga_list = list(iga_items)
-    iga_df = pd.DataFrame(iga_list) 
-    iga_df.columns = ['TPM','IG']
-    cols = iga_df.columns.tolist()
+    ig_sub_items = ig_sub_dict.items()
+    iga_sub_list = list(ig_sub_items)
+    ig_sub_df = pd.DataFrame(iga_sub_list) 
+    ig_sub_df.columns = ['TPM','IG']
+    cols = ig_sub_df.columns.tolist()
     cols = cols[-1:] + cols[:-1]
-    iga_df = iga_df[cols]
-    print(iga_df)
-    iga_df.to_csv( os.path.join(out_dir, prefix + "_iga_subtypes_summary.csv"), sep=",", index=False)
+    ig_sub_df = ig_sub_df[cols]
+    print(ig_sub_df)
+    ig_sub_df.to_csv( os.path.join(out_dir, prefix + "_ig_subtypes_summary.csv"), sep=",", index=False)
 
   
 

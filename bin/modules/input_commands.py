@@ -21,6 +21,8 @@ def get_input():
 	parser.add_argument('-o', '--outdir', action="store", help='directory to write the output', default=os.path.join(os.getcwd(), "output/") )
 	parser.add_argument('-t', '--threads', action="store", help='number of threads', default="1" )
 	parser.add_argument('-p', '--prefix', action="store", help='prefix to be appended to output files', default="sample" )
+	parser.add_argument('-s', '--species', action="store", help='species - accepts "rat" or "human"', default="rat" )
+	parser.add_argument('-k', '--kit', action="store", help='protocol - accepts "cdna" or "direct"', default="cdna" )
 	parser.add_argument('-V', '--version', action='version', version=v)
 	args = parser.parse_args()
 

@@ -9,6 +9,7 @@ def instantiate_install(db_dir):
     instantiate_dir(db_dir)
     get_IMGT_fa(db_dir)
     get_rat_receptors(db_dir)
+    get_human_receptors(db_dir)
 
 # create the dir
 
@@ -82,6 +83,56 @@ def get_rat_receptors(db_dir):
             if 'Rattus norvegicus' in species:
                 fa_record = SeqRecord(dna_record.seq, id=header, description="")
                 SeqIO.write(fa_record, fa_out, 'fasta')
+
+
+def get_human_receptors(db_dir):
+    print("Getting Human IMGT File")
+
+    # getting entries with multiple entries
+
+    headers = []
+    
+    for dna_record in SeqIO.parse(os.path.join(db_dir, "total_fasta.fa"), "fasta"):
+        # split the list
+        spl_list = dna_record.id.split("|")
+        # get second item (the receptor)
+        header = spl_list[1]
+        # get third item - species
+        species = spl_list[2]
+        # write new record if has 'Rattus'
+        if 'Homo' in species:
+            headers.append(header)
+
+    # get all dupes     
+
+    seen = set()
+    dupes = []
+
+    for x in headers:
+        if x in seen:
+            dupes.append(x)
+        else:
+            seen.add(x)
+
+
+    with open(os.path.join(db_dir, "human_IMGT+C.fa"), 'w') as fa_out:
+        # need description for entire header
+        for dna_record in SeqIO.parse(os.path.join(db_dir, "total_fasta.fa"), "fasta"):
+            # split the list
+            spl_list = dna_record.description.split("|")
+            # split to get after g,
+            # get second item (the receptor)
+            header = spl_list[1]
+            # add append to id if a dupe - choose the chromosome (I think)
+            if header in dupes:
+                header = header + "_" + spl_list[4]
+            # get third item - species
+            species = spl_list[2]
+            # write new record if has 'Rattus norvegicus'
+            if 'Homo sapiens' in species:
+                fa_record = SeqRecord(dna_record.seq, id=header, description="")
+                SeqIO.write(fa_record, fa_out, 'fasta')
+
 
 
 
