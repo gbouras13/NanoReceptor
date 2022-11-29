@@ -3,6 +3,7 @@ Program to infer IG and TRA quantities from Long Read RNA-Seq Data
 
 # In progress
 
+```
 usage: nanoreceptor.py [-h] -i INFILE [-o OUTDIR] [-t THREADS] [-p PREFIX]
                        [-V]
 
@@ -19,3 +20,4 @@ optional arguments:
   -p PREFIX, --prefix PREFIX
                         prefix to be appended to output files
   -V, --version         show program's version number and exit
+```
