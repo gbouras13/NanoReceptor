@@ -36,6 +36,7 @@ setup(
         'numpy >= 1.16.0',
         'pysam >= 0.19.0'
     ],
+    setup_requires=[],
     entry_points={
         "console_scripts": ["nanoreceptor.py = nanoreceptorModules.main:run", "nanoreceptor = nanoreceptorModules.main:run"]
     },
