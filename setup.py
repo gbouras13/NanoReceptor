@@ -34,7 +34,8 @@ setup(
         "Click>=8.1.3",
         'biopython >= 1.74',
         'numpy >= 1.16.0',
-        'pysam >= 0.19.0'
+        'pysam >= 0.19.0',
+        'pytest-runner >= 5.0.0'
     ],
     setup_requires=[],
     entry_points={
