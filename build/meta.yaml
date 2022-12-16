@@ -12,7 +12,7 @@ source:
 
 requirements:
   build:
-    - {{ compiler('cxx') }} 
+    - {{ compiler('cxx') }}
   host:
     - pip
     - python
@@ -24,6 +24,11 @@ requirements:
     - pysam
     - samtools
 
+test:
+  imports:
+    - nanoreceptorModules
+  commands:
+    - nanoreceptor --help
 
 
 about:
