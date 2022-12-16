@@ -1,9 +1,9 @@
 from audioop import ratecv
 import os
 import sys
-from nanoreceptorModules import input_commands
-from nanoreceptorModules import processes
-from nanoreceptorModules import post_processing
+import input_commands
+import processes
+import post_processing
 
 DBDIR = os.path.join(os.path.dirname(__file__),'../',"databases/")  
 
