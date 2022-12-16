@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The setup script."""
 
-from modules import databases
+import databases
 import os
 
 
