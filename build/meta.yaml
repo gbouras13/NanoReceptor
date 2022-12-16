@@ -5,14 +5,14 @@ package:
 build:
   number: 0
   noarch: generic
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv "
 
 source:
   git_url: https://github.com/gbouras13/NanoReceptor
 
 requirements:
   build:
-    - python
-    - setuptools
+    - {{ compiler('cxx') }} 
   host:
     - pip
     - python
