@@ -1,7 +1,1 @@
-import pkg_resources
-# this comes from setuptools
-
-try:
-    __version__ = pkg_resources.get_distribution('nanoreceptor').version
-except Exception:
-    __version__ = 'unknown'
+__version__ = '0.1.0'
