@@ -16,7 +16,7 @@ CLASSIFIERS = [
 
 # set version
 
-v='0.1.0'
+v='0.1.1'
 
 setup(
     name="NanoReceptor",
