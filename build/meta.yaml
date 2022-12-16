@@ -1,6 +1,6 @@
 package:
   name: "nanoreceptor"
-  version: "1.0.0"
+  version: "0.1.0"
 
 build:
   number: 0
@@ -10,7 +10,13 @@ source:
   git_url: https://github.com/gbouras13/NanoReceptor
 
 requirements:
- run:
+  build:
+    - python
+    - setuptools
+  host:
+    - pip
+    - python
+  run:
     - minimap2
     - biopython
     - pandas

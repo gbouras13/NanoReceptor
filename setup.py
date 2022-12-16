@@ -1,11 +1,6 @@
 import os
 from setuptools import setup, find_packages
 
-def get_version():
-    with open("VERSION", 'r') as f:
-        v = f.readline().strip()
-        return 
-
 
 CLASSIFIERS = [
     "Environment :: Console",
@@ -19,13 +14,17 @@ CLASSIFIERS = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
 
+# set version
+
+v='0.1.0'
+
 setup(
     name="NanoReceptor",
     packages=find_packages(),
     url="https://github.com/gbouras13/NanoReceptor",
     python_requires=">=3.7",
     description="Program to infer IG and TRA quantities from Long Read RNA-Seq Data",
-    version=get_version(),
+    version=v,
     author="George Bouras",
     author_email="george.bouras@adelaide.edu.au",
     py_modules=["NanoReceptor"],
