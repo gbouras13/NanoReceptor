@@ -16,12 +16,14 @@ requirements:
   host:
     - pip
     - python
+    - cython
   run:
     - minimap2
     - biopython
     - pandas
     - pysam
     - samtools
+
 
 
 about:
