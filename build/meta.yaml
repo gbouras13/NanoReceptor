@@ -12,7 +12,7 @@ source:
 
 requirements:
   build:
-    - {{ compiler('cxx') }}
+    - numpy>=1.17
   host:
     - pip
     - python
@@ -23,6 +23,7 @@ requirements:
     - pandas
     - pysam
     - samtools
+    - numpy>=1.17
 
 test:
   imports:
