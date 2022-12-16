@@ -7,7 +7,6 @@ from Bio import SeqIO
 import gzip
 from mimetypes import guess_type
 from functools import partial
-from version import __version__ 
 
 ### GLOBAL VARIABLES
 
