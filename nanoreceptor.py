@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from nanoreceptorModules.main import main
+import nanoreceptorModules
 
 if __name__== "__main__":
-    main()
+    nanoreceptorModules.run()
 
