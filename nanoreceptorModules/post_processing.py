@@ -76,8 +76,6 @@ def pivot_df(out_dir, df, total_read_count, prefix, kit, species):
 
     ### subsets 
     # https://stackoverflow.com/questions/26577516/how-to-test-if-a-string-contains-one-of-the-substrings-in-a-list-in-pandas
-
-
     # rats
 
     if species == "rat":
