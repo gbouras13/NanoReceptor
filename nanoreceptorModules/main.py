@@ -1,27 +1,28 @@
 from audioop import ratecv
 import os
 import sys
-import input_commands
-import processes
-import post_processing
+# from input_commands import get_input, validate_fastq, instantiate_dirs
+# from processes import run_minimap2, keep_primary_supplementary_mappings_convert_sam, keep_primary_supplementary_mappings_convert_sam_direct, run_flagstat
+# from post_processing import get_total_read_count, parse_bam, pivot_df
+
 
 DBDIR = os.path.join(os.path.dirname(__file__),'../',"databases/")  
 
 def main(argv):  
 
-    args = input_commands.get_input()
-    input_commands.validate_fastq(args.infile)
-    out_dir = input_commands.instantiate_dirs(args.outdir) # incase there is already an outdir
-    processes.run_minimap2(args.infile, out_dir, DBDIR, args.prefix, args.species)
+    args = get_input()
+    validate_fastq(args.infile)
+    out_dir = instantiate_dirs(args.outdir) # incase there is already an outdir
+    run_minimap2(args.infile, out_dir, DBDIR, args.prefix, args.species)
     if args.kit == "cdna":
-        processes.keep_primary_supplementary_mappings_convert_sam(out_dir, args.prefix)
+        keep_primary_supplementary_mappings_convert_sam(out_dir, args.prefix)
     elif args.kit == "direct":
-        processes.keep_primary_supplementary_mappings_convert_sam_direct(out_dir, args.prefix)
-    processes.run_flagstat(out_dir, args.prefix)
+        keep_primary_supplementary_mappings_convert_sam_direct(out_dir, args.prefix)
+    run_flagstat(out_dir, args.prefix)
     # post processing
-    total_read_count = post_processing.get_total_read_count(out_dir,args.prefix)
-    match_df = post_processing.parse_bam(out_dir, args.prefix)
-    post_processing.pivot_df(out_dir, match_df, total_read_count, args.prefix, args.kit, args.species)
+    total_read_count = get_total_read_count(out_dir,args.prefix)
+    match_df = parse_bam(out_dir, args.prefix)
+    pivot_df(out_dir, match_df, total_read_count, args.prefix, args.kit, args.species)
    
     sys.exit("nanoreceptor has finished")  
 
