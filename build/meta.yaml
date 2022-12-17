@@ -25,10 +25,8 @@ requirements:
     - numpy>=1.17
 
 test:
-  imports:
-    - nanoreceptorModules
   commands:
-    - nanoreceptor --version
+    - nanoreceptor.py --version
 
 about:
   home: https://github.com/gbouras13/NanoReceptor
