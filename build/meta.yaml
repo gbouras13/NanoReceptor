@@ -26,7 +26,7 @@ requirements:
 
 test:
   commands:
-    - nanoreceptor.py --version
+    - nanoreceptor --version
 
 about:
   home: https://github.com/gbouras13/NanoReceptor
