@@ -24,9 +24,6 @@ requirements:
     - samtools
     - numpy>=1.17
 
-test:
-  commands:
-    - nanoreceptor.py --help
 
 
 about:
