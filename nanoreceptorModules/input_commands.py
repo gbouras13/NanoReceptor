@@ -7,6 +7,7 @@ from Bio import SeqIO
 import gzip
 from mimetypes import guess_type
 from functools import partial
+import nanoreceptorModules
 
 ### GLOBAL VARIABLES
 
@@ -20,7 +21,7 @@ def get_input():
 	parser.add_argument('-p', '--prefix', action="store", help='prefix to be appended to output files', default="sample" )
 	parser.add_argument('-s', '--species', action="store", help='species - accepts "rat" or "human"', default="rat" )
 	parser.add_argument('-k', '--kit', action="store", help='protocol - accepts "cdna" or "direct"', default="cdna" )
-	parser.add_argument('-V', '--version', action='version', version=__version__)
+	parser.add_argument('-V', '--version', action='version', version=nanoreceptorModules.__version__)
 	args = parser.parse_args()
 
 	return args
