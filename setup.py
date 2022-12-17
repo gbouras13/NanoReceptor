@@ -29,7 +29,6 @@ def main():
         version=v,
         author="George Bouras",
         author_email="george.bouras@adelaide.edu.au",
-        scripts=['nanoreceptor.py'],
         py_modules=["NanoReceptor"],
         classifiers = CLASSIFIERS,
         install_requires=[
@@ -42,7 +41,7 @@ def main():
             'pytest-runner >= 5.0.0'
         ],
         entry_points={
-            "console_scripts": ["nanoreceptor.py = nanoreceptorModules.main:run", "nanoreceptor = nanoreceptorModules.main:run"]
+            "console_scripts": ["nanoreceptor = nanoreceptorModules.main:run"]
         },
         include_package_data=True,
     )
