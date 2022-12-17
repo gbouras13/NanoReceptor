@@ -26,7 +26,7 @@ requirements:
 
 test:
   commands:
-    - nanoreceptor --help
+    - nanoreceptor.py --help
 
 
 about:
