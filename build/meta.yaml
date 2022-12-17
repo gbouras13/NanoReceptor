@@ -24,7 +24,9 @@ requirements:
     - samtools
     - numpy>=1.17
 
-
+test:
+  commands:
+    - nanoreceptor.py --version
 
 about:
   home: https://github.com/gbouras13/NanoReceptor
